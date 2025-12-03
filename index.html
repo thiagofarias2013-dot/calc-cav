@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Cavados de Projétil</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 1.5rem;
+        }
+
+        .input-group {
+            margin-bottom: 1rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #555;
+            font-weight: 600;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            box-sizing: border-box; 
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #resultado-container {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e9ecef;
+            border-radius: 5px;
+            text-align: center;
+            display: none; 
+        }
+
+        .res-valor {
+            font-size: 1.5rem;
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .formula-info {
+            font-size: 0.8rem;
+            color: #888;
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Calculadora Nc</h2>
+        
+        <div class="input-group">
+            <label for="diametro">Diâmetro total (d):</label>
+            <input type="number" id="diametro" placeholder="Ex: 9.02" step="0.01">
+        </div>
+
+        <div class="input-group">
+            <label for="cavado">
+                Valor de 1 Cavado (cav):
+                <span style="cursor: help; color: #007bff; font-size: 0.9em;" title="ATENÇÃO: Informe a medida de APENAS UM cavado. O cálculo assume que todos são iguais.">
+                    ⓘ
+                </span>
+            </label>
+            <input type="number" id="cavado" placeholder="Ex: 2.5" step="0.01">
+        </div>
+
+        <div class="input-group">
+            <label for="resalto">
+                Valor de 1 Ressalto (res):
+                <span style="cursor: help; color: #007bff; font-size: 0.9em;" title="ATENÇÃO: Informe a medida de APENAS UM ressalto. O cálculo assume que todos são iguais.">
+                    ⓘ
+                </span>
+            </label>
+            <input type="number" id="resalto" placeholder="Ex: 1.5" step="0.01">
+        </div>
+        <button onclick="calcular()">Calcular Total</button>
+
+        <div id="resultado-container">
+            <p>Número total de cavados (Nc):</p>
+            <div class="res-valor" id="resultadoValor">0</div>
+        </div>
+
+        <div class="formula-info">
+            Fórmula: Nc = (3,14 * d) / (cav + res)<br>
+            Considerando repetição simétrica do padrão.
+        </div>
+    </div>
+
+    <script>
+        function calcular() {
+            let dStr = document.getElementById('diametro').value.replace(',', '.');
+            let cavStr = document.getElementById('cavado').value.replace(',', '.');
+            let resStr = document.getElementById('resalto').value.replace(',', '.');
+
+            let d = parseFloat(dStr);
+            let cav = parseFloat(cavStr);
+            let res = parseFloat(resStr);
+
+            if (isNaN(d) || isNaN(cav) || isNaN(res)) {
+                alert("Por favor, preencha todos os campos com números válidos.");
+                return;
+            }
+
+            if ((cav + res) === 0) {
+                alert("A soma de Cavado e Ressalto não pode ser zero.");
+                return;
+            }
+
+            // Fórmula: Circunferência / Tamanho do Ciclo (Cavado + Ressalto)
+            let nc = (3.14 * d) / (cav + res);
+
+            const container = document.getElementById('resultado-container');
+            const valorDisplay = document.getElementById('resultadoValor');
+
+            let ncArredondado = Math.round(nc);
+            
+            valorDisplay.innerHTML = `${nc.toFixed(2)} <br><span style="font-size:0.9rem; color:#555">(Inteiro mais próximo: ${ncArredondado})</span>`;
+            
+            container.style.display = 'block';
+        }
+    </script>
+</body>
+</html>
