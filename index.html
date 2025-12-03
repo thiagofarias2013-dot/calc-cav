@@ -6,6 +6,9 @@
     <title>Calculadora de Cavados de Projétil</title>
     
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2280%22>🧮</text><text x=%2250%22 y=%2290%22 font-size=%2245%22>🎯</text></svg>">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#007bff">
+    <link rel="apple-touch-icon" href="icon.svg">
     
     <style>
         body {
@@ -172,8 +175,15 @@
             
             container.style.display = 'block';
         }
+    </script> <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('./sw.js')
+                .then(() => console.log('App instalado/Cacheado com sucesso!'))
+                .catch((err) => console.error('Erro ao registrar SW:', err));
+        }
     </script>
 </body>
 
 </html>
+
 
